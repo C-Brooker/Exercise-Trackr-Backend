@@ -6,11 +6,18 @@ let ExerciseDTO = require("../models/Exercise.model");
 router.route("/").get((req, res) => {
   //Get requests will use res
   ExerciseDTO.find()
-    .then((exercises) => res.json(exercises))
+    .then((exercises) =>
+      res.status(200).json({
+        status: res.statusCode,
+        message: "successfully retrieved!",
+        body: exercises,
+      })
+    )
     .catch((err) => res.status(400).json("Error: " + err));
 });
 
-router.route("/add").post((req, res) => {
+router.post("/add", (req, res) => {
+  console.log(req.body);
   //Post requests will use req
   const exerciseName = req.body.exerciseName;
   const exerciseReps = Number(req.body.exerciseReps);
@@ -30,24 +37,44 @@ router.route("/add").post((req, res) => {
   //Res for response, req for requests
   newExercise
     .save() //Saving exercise
-    .then(() => res.json("Exercise Added!"))
+    .then(() =>
+      res.status(200).json({
+        status: res.statusCode,
+        message: "Exercise Succesfully Added!",
+      })
+    )
     .catch((err) => res.status(400).json("Error: " + err));
 });
 
-router.route("/:id").get((req, res) => {
-  ExerciseDTO.findById(req.params.id)
-    .then((exercise) => res.json(exercise))
+router.get("/:id", (req, res) => {
+  const id = req.params.id;
+  ExerciseDTO.findById(id)
+    .then((exercise) =>
+      res.status(200).json({
+        status: res.statusCode,
+        message: `Exercise ${id} Successfully Retrieved!`,
+        body: exercise,
+      })
+    )
     .catch((err) => res.status(400).json("Error: " + err));
 });
 
-router.route("/:id").delete((req, res) => {
-  ExerciseDTO.findByIdAndDelete(req.params.id)
-    .then(() => res.json("Exercise Deleted."))
+router.delete("/delete/:id", (req, res) => {
+  console.log("Hiap: " + req.params);
+  const id = req.params.id;
+  ExerciseDTO.findByIdAndDelete(id)
+    .then(() =>
+      res.status(200).json({
+        status: res.statusCode,
+        message: `Exercise ${id} Succesfully Deleted!`,
+      })
+    )
     .catch((err) => res.status(400).json("Error: " + err));
 });
 
-router.route("/update/:id").post((req, res) => {
-  ExerciseDTO.findById(req.params.id)
+router.post("/update/:id", (req, res) => {
+  const id = req.params.id;
+  ExerciseDTO.findById(id)
     .then((exercise) => {
       exercise.exerciseName = req.body.exerciseName;
       exercise.exerciseReps = Number(req.body.exerciseReps);
@@ -57,7 +84,12 @@ router.route("/update/:id").post((req, res) => {
 
       exercise
         .save()
-        .then(() => res.json("Exercise Updated!"))
+        .then(() =>
+          res.status(200).json({
+            status: res.statusCode,
+            message: `Exercise ${id} Succesfully Updated!`,
+          })
+        )
         .catch((err) => res.status(400).json("Error: " + err));
     })
     .catch((err) => res.status(400).json("Error: " + err));
