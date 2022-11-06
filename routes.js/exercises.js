@@ -59,8 +59,8 @@ router.get("/:id", (req, res) => {
     .catch((err) => res.status(400).json("Error: " + err));
 });
 
-router.delete("/delete/:id", (req, res) => {
-  console.log("Hiap: " + req.params);
+router.delete("/:id", (req, res) => {
+  console.log("Working!");
   const id = req.params.id;
   ExerciseDTO.findByIdAndDelete(id)
     .then(() =>
