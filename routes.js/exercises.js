@@ -22,7 +22,7 @@ router.post("/add", (req, res) => {
   const exerciseName = req.body.exerciseName;
   const exerciseReps = Number(req.body.exerciseReps);
   const exerciseSets = Number(req.body.exerciseSets); //When a number use this
-  const exerciseFreq = Number(req.body.exerciseFreq); //When a date use this
+  const exerciseWeight = Number(req.body.exerciseWeight); //When a date use this
   const exerciseDate = Date.parse(req.body.exerciseDate);
 
   const newExercise = new ExerciseDTO({
@@ -30,7 +30,7 @@ router.post("/add", (req, res) => {
     exerciseName,
     exerciseReps,
     exerciseSets,
-    exerciseFreq,
+    exerciseWeight,
     exerciseDate,
   });
 
@@ -79,7 +79,7 @@ router.post("/update/:id", (req, res) => {
       exercise.exerciseName = req.body.exerciseName;
       exercise.exerciseReps = Number(req.body.exerciseReps);
       exercise.exerciseSets = Number(req.body.exerciseSets);
-      exercise.exerciseFreq = Number(req.body.exerciseFreq);
+      exercise.exerciseWeight = Number(req.body.exerciseWeight);
       exercise.exerciseDate = Date.parse(req.body.exerciseDate);
 
       exercise
