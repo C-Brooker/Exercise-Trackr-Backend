@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 require("dotenv").config();
 
 const app = express();
-//const port = process.env.PORT || 5000;
+const port = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(express.json());
@@ -21,9 +21,11 @@ connection.once("open", () => {
 const exercisesRouter = require("./routes.js/exercises");
 const usersRouter = require("./routes.js/users");
 
+app.use(express.static("build"));
+
 app.use("/exercises", exercisesRouter); //When going to the /exercises it will load everything in the exercisesRouter
 app.use("/users", usersRouter);
 
-// app.listen(port, () => {
-//   console.log(`Server is running on port: ${port}`);
-// });
+app.listen(port, () => {
+  console.log(`Server is running on port: ${port}`);
+});
